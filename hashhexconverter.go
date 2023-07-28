@@ -25,7 +25,6 @@ func Hashhexconvert(hexcode string) ([]int){
 		} else {
 			val += (int(hexcode[idx]) - 48) * 16
 		}
-
 		if unicode.IsLetter(rune(hexcode[idx + 1])) {
 			val += int(byte(hexcode[idx + 1])) - 55
 		} else {
