@@ -8,45 +8,14 @@ import (
 	"math/big"
 )
 
-func Hexconvert(args string) {
+func Hexconvert(args string) interface{}{
 	// this func is same as -> .SetString(hexNumber, 16)
-	fmt.Println()
-	fmt.Println(args)
-	var result []int
 	sum := new(big.Int)
 
 	if strings.HasPrefix(args, "#") {
 		args = args[1:]
 
-		length := len(args)
-		if length % 2 != 0 {
-			fmt.Println("Not a hex number")
-			return
-		}
-		for i := 0; i < length / 2; i++ {
-			idx := i * 2
-			val := 0
-
-			if unicode.IsLetter(rune(args[idx])) {
-				if args[idx] - 55 > 15{
-					fmt.Println("Not a valid hexidecimal value")
-					return
-				}
-				val += (int(byte(args[idx])) - 55) * 16
-			} else {
-				val += (int(args[idx]) - 48) * 16
-			}
-
-			if unicode.IsLetter(rune(args[idx + 1])) {
-				val += int(byte(args[idx + 1])) - 55
-			} else {
-				val += int(args[idx + 1]) - 48
-			}
-
-			result = append(result, val)
-		}
-		fmt.Println(result)
-		return
+		return Hashhexconvert(args)
 	} else if strings.HasPrefix(args, "0x") {
 		args = args[2:]
 		length := len(args)
@@ -58,7 +27,7 @@ func Hexconvert(args string) {
 			if unicode.IsLetter(rune(args[counter])) {
 				if args[counter] - 55 > 15{
 					fmt.Println("Not a valid hexidecimal value")
-					return
+					return nil
 				}
 				tempsum.Add(tempsum, new(big.Int).Mul(new(big.Int).SetInt64(int64(args[counter]-'0'-7)), new(big.Int).Exp(big.NewInt(16), big.NewInt(int64(reversecounter)), nil)))
 			} else {
@@ -69,6 +38,8 @@ func Hexconvert(args string) {
 			counter--
 			reversecounter++
 		}
-		fmt.Println(sum)
+		return sum
 	}
+	fmt.Println("No valid hexidecimal arguments")
+	return nil
 }
