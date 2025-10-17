@@ -3,12 +3,12 @@ package main
 
 import (
 	"fmt"
+	"math/big"
 	"strings"
 	"unicode"
-	"math/big"
 )
 
-func Hexconvert(args string) interface{}{
+func Hexconvert(args string) interface{} {
 	// this func is same as -> .SetString(hexNumber, 16)
 	sum := new(big.Int)
 
@@ -25,14 +25,14 @@ func Hexconvert(args string) interface{}{
 		for counter > -1 {
 			tempsum.SetInt64(0)
 			if unicode.IsLetter(rune(args[counter])) {
-				if args[counter] - 55 > 15{
+				if args[counter]-55 > 15 {
 					fmt.Println("Not a valid hexidecimal value")
 					return nil
 				}
 				tempsum.Add(tempsum, new(big.Int).Mul(new(big.Int).SetInt64(int64(args[counter]-'0'-7)), new(big.Int).Exp(big.NewInt(16), big.NewInt(int64(reversecounter)), nil)))
 			} else {
 				tempsum.Add(tempsum, new(big.Int).Exp(big.NewInt(16), big.NewInt(int64(reversecounter)), nil))
-				tempsum.Mul(tempsum, new(big.Int).SetInt64(int64(args[counter]) - 48))
+				tempsum.Mul(tempsum, new(big.Int).SetInt64(int64(args[counter])-48))
 			}
 			sum.Add(sum, tempsum)
 			counter--
@@ -40,6 +40,6 @@ func Hexconvert(args string) interface{}{
 		}
 		return sum
 	}
-	fmt.Println("No valid hexidecimal arguments")
+	fmt.Println("Invalid hexidecimal arguments")
 	return nil
 }
